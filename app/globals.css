@@ -85,6 +85,109 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
+/* Under construction — override --uc-* in globals.css per client brand */
+.under-construction {
+  --uc-bg-from: #010104;
+  --uc-bg-via: #0a0812;
+  --uc-bg-to: #11101a;
+  --uc-glow-deep: #181525;
+  --uc-glow-mid: #0e0c14;
+  --uc-accent: #a855f7;
+  --uc-accent-deep: #6d28d9;
+  --uc-accent-soft: #7c3aed;
+  --uc-accent-muted: #5b4a7a;
+  --uc-accent-line: #8b7aa8;
+  --uc-card-border: rgba(58, 139, 208, 0.15);
+  --uc-card-from: rgba(57, 85, 117, 0.4);
+  --uc-card-via: rgba(26, 34, 48, 0.85);
+  --uc-card-to: #0a0a0f;
+  --uc-brand-from: #c084fc;
+  --uc-brand-to: #a855f7;
+  --uc-tagline: #e8e8f0;
+  --uc-headline: #f5f0ed;
+  --uc-subheadline: #ffffff;
+  --uc-domain: #ffffff;
+  --uc-link-hover: #c084fc;
+  --uc-divider-width: 4rem;
+
+  background: linear-gradient(to bottom, var(--uc-bg-from), var(--uc-bg-via), var(--uc-bg-to));
+}
+
+.under-construction-glow::before,
+.under-construction-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.under-construction-glow::before {
+  background:
+    linear-gradient(to top, var(--uc-glow-deep) 0%, color-mix(in srgb, var(--uc-glow-mid) 65%, transparent) 55%, transparent 100%),
+    linear-gradient(to top, color-mix(in srgb, var(--uc-accent-deep) 14%, transparent) 0%, color-mix(in srgb, var(--uc-accent-muted) 6%, transparent) 35%, transparent 100%),
+    linear-gradient(to top, color-mix(in srgb, var(--uc-accent-soft) 8%, transparent) 0%, transparent 20%);
+}
+
+.under-construction-glow::after {
+  background:
+    radial-gradient(ellipse 110% 45% at 50% 115%, color-mix(in srgb, var(--uc-accent-deep) 15%, transparent) 0%, transparent 55%),
+    linear-gradient(to right, transparent, color-mix(in srgb, var(--uc-accent-line) 20%, transparent), transparent);
+  background-size: 100% 100%, 100% 1px;
+  background-position: center, bottom;
+  background-repeat: no-repeat;
+}
+
+.under-construction-card {
+  border-radius: 0.75rem;
+  border: 1px solid var(--uc-card-border);
+  background: linear-gradient(to bottom right, var(--uc-card-from), var(--uc-card-via), var(--uc-card-to));
+}
+
+.under-construction-brand-title {
+  background: linear-gradient(135deg, var(--uc-brand-from) 0%, var(--uc-brand-to) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.under-construction-brand-tagline {
+  color: var(--uc-tagline);
+}
+
+.under-construction-headline {
+  color: var(--uc-headline);
+}
+
+.under-construction-subheadline {
+  color: var(--uc-subheadline);
+}
+
+.under-construction-domain {
+  color: var(--uc-domain);
+}
+
+.under-construction-divider {
+  height: 1px;
+  width: var(--uc-divider-width);
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--uc-brand-from) 60%, transparent),
+    transparent
+  );
+}
+
+.under-construction-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.under-construction-link:hover {
+  color: var(--uc-link-hover);
+}
+
 /* Dark-Space — classic purple space (default preview theme) */
 .creative-preview[data-color-theme="dark"] {
   color-scheme: dark;

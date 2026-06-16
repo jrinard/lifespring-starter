@@ -1,3 +1,9 @@
+export type TeamContact = {
+  name: string;
+  phone: string;
+  email: string;
+};
+
 export const siteConfig = {
   name: "LifeSpring Design",
   domain: "lifespringdesign.com",
@@ -8,6 +14,14 @@ export const siteConfig = {
   phone: "503-555-0100",
   email: "hello@lifespringdesign.com",
   address: "",
+  /** Optional contacts shown on the under construction page. Falls back to site phone/email when empty. */
+  teamContacts: [] as TeamContact[],
+  underConstruction: {
+    headline: "Under Construction",
+    subheadline: "Our new site is on the way.",
+    /** Optional split lockup, e.g. ["Spartan", "Restoration"]. Defaults to site name. */
+    brandTitleLines: undefined as string[] | undefined,
+  },
   social: {
     facebook: "#",
     instagram: "#",
