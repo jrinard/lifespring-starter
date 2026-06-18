@@ -66,7 +66,12 @@ function mergeLegacySettings(value: { from: string; to: string }): HeaderV3Previ
   });
 }
 
+import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+
 export function loadHeaderV3PreviewSettings(): HeaderV3PreviewSettings {
+  const committed = getCommittedHomepagePreviewSettings()?.headerV3;
+  if (committed) return committed;
+
   if (typeof window === "undefined") {
     return defaultHeaderV3PreviewSettings;
   }

@@ -25,7 +25,12 @@ function isPortfolioPreviewSettings(value: unknown): value is Partial<PortfolioP
   return isPortfolioSectionTheme((value as PortfolioPreviewSettings).theme);
 }
 
+import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+
 export function loadPortfolioPreviewSettings(): PortfolioPreviewSettings {
+  const committed = getCommittedHomepagePreviewSettings()?.portfolio;
+  if (committed) return committed;
+
   if (typeof window === "undefined") {
     return defaultPortfolioPreviewSettings;
   }

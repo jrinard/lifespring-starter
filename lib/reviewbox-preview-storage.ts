@@ -78,7 +78,12 @@ function isReviewboxPreviewSettings(value: unknown): value is Partial<ReviewboxP
   return true;
 }
 
+import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+
 export function loadReviewboxPreviewSettings(): ReviewboxPreviewSettings {
+  const committed = getCommittedHomepagePreviewSettings()?.reviewbox;
+  if (committed) return committed;
+
   if (typeof window === "undefined") {
     return defaultReviewboxPreviewSettings;
   }

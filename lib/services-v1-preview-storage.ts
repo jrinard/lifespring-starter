@@ -13,7 +13,12 @@ function isStoredServicesV1Preview(value: unknown): value is { layoutWidth?: unk
   return Boolean(value && typeof value === "object");
 }
 
+import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+
 export function loadServicesV1LayoutWidth(): ServicesV1LayoutWidth {
+  const committed = getCommittedHomepagePreviewSettings()?.servicesV1LayoutWidth;
+  if (committed) return committed;
+
   if (typeof window === "undefined") {
     return defaultServicesV1LayoutWidth;
   }

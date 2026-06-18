@@ -72,7 +72,12 @@ function isContactPreviewSettings(value: unknown): value is Partial<ContactPrevi
   return true;
 }
 
+import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+
 export function loadContactPreviewSettings(): ContactPreviewSettings {
+  const committed = getCommittedHomepagePreviewSettings()?.contact;
+  if (committed) return committed;
+
   if (typeof window === "undefined") {
     return defaultContactPreviewSettings;
   }

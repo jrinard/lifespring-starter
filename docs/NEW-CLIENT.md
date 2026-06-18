@@ -124,9 +124,9 @@ Restart `npm run dev` after any env change. Mirror the same vars in Vercel (or h
 
 **9. Confirm `/` is under construction**
 
-`app/page.tsx` should render `<UnderConstruction />` (default in starter). **Do not change this yet.**
+Default: `config/site.ts` → `launch.mode` is `"under-construction"`. `app/page.tsx` reads that switch and renders `<UnderConstruction />`. **Do not publish yet.**
 
-The page reads from `siteConfig`:
+The holding page reads from `siteConfig`:
 
 - `assets.logo` — optional logo in the brand card
 - `underConstruction.brandTitleLines` — optional split title (e.g. `["Spartan", "Restoration"]`); defaults to `name`
@@ -152,7 +152,7 @@ Override `--uc-*` CSS variables under `.under-construction` in `app/globals.css`
 - [ ] `config/site.ts` has client name, domain, tagline, logo path
 - [ ] `lib/seo-content.ts` → `pageSeo.home` updated for client
 - [ ] Client logo in `public/`
-- [ ] `app/page.tsx` still `<UnderConstruction />`
+- [ ] `config/site.ts` → `launch.mode` is `"under-construction"`
 - [ ] Vercel deployed with client domain
 - [ ] `/playground` and `/preview` not linked from public nav (optional: password-protect later)
 
@@ -216,17 +216,22 @@ Common trade/restoration stack:
 
 ---
 
-### Phase 5 — Full site (replace under construction)
+### Phase 5 — Full site (publish homepage)
 
-**17. Real homepage — `app/page.tsx`**
+**17. Publish from `/playground`**
 
-When layout is approved on `/playground`, **replace** `<UnderConstruction />` with the real section stack:
+When layout is approved:
 
-- Import sections **directly** (no `SectionSwitcher`, no `PreviewShell`)
-- Mirror chosen stack from registry / `HomePage.tsx`
-- Pass props from `demo-content.ts`
-- Wrap in `<main id="main-content">`
-- Exactly **one `<h1>`** on the page
+1. Check **Preview** on each section you want on the live homepage
+2. Click **Publish to /** in the playground control panel
+   - Saves section stack + theme settings to `lib/homepage-config.json`
+   - Sets `config/site.ts` → `launch.mode` to `"live"`
+3. Update `lib/seo-content.ts` → `pageSeo.home` (title, description, set `noIndex: false`)
+4. Verify `/` — real homepage with JSON-LD; `/preview` and `/playground` stay noIndex
+
+**Revert:** **Back to construction** sets `launch.mode` back to `"under-construction"` (keeps saved config for re-publish).
+
+Manual override: edit `launch.mode` in `config/site.ts` directly.
 
 **18. Scaffold pages**
 
@@ -248,8 +253,8 @@ Update copy and `createMetadata()` in each:
 
 **20. Pre-launch checklist** (details in `docs/SEO.md`)
 
-- [ ] `app/page.tsx` no longer under construction — real homepage live
-- [ ] Remove `noIndex` from root `app/layout.tsx` / `pageSeo.home` when ready to index
+- [ ] Published from `/playground` — `launch.mode` is `"live"` and `/` shows real homepage
+- [ ] `pageSeo.home` updated — `noIndex: false` when ready to index
 - [ ] Remove Playground & Preview from `config/site.ts` nav (if added)
 - [ ] Confirm `app/sitemap.ts` lists only public routes
 - [ ] `/playground` and `/preview` stay noIndex (already configured)
@@ -263,10 +268,11 @@ Update copy and `createMetadata()` in each:
 
 ```
 .env.local.example → .env.local  ← Resend + reCAPTCHA (every clone — see Integrations)
-config/site.ts              ← business identity (always — soft launch minimum)
+config/site.ts              ← business identity + launch.mode switch (under-construction | live)
+lib/homepage-config.json    ← published section stack (written by Publish to /)
 lib/seo-content.ts          ← pageSeo.home first, then other routes
 public/logo.png             ← under construction logo (soft launch)
-app/page.tsx                ← UnderConstruction until Phase 5, then real homepage
+app/page.tsx                ← reads launch.mode; do not edit manually for go-live
 lib/color-themes.ts         ← default theme for /playground
 lib/demo-content.ts         ← section copy (Phase 3+)
 public/                     ← full assets (Phase 3+)
@@ -313,13 +319,14 @@ Email: [ ]
 
 Phase 1–2 first: config/site.ts, pageSeo.home, client logo, soft launch on Under Construction.
 Integrations: cp .env.local.example .env.local, set up Resend + reCAPTCHA per docs/resend-setup.md and docs/recaptcha.md.
-Then theme on /playground. Don't replace app/page.tsx until I say full launch.
+Then theme on /playground. Don't click Publish to / until I say full launch.
 ```
 
 ---
 
 ## Version
 
+- **Boilerplate v1.3** — adds Publish to / (homepage-config.json + launch.mode switch)
 - **Boilerplate v1.2** — adds Integrations section (env, contact modal, Resend, reCAPTCHA)
 - Pair with `docs/SEO.md` for metadata / schema / go-live detail
 - Pair with `docs/resend-setup.md` and `docs/recaptcha.md` for contact form setup

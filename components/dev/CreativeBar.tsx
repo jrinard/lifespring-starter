@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { colorThemes, getThemeColors } from "@/lib/color-themes";
 import { fontThemes } from "@/lib/creative-themes";
 import { useCreativeTheme } from "@/components/dev/CreativeProvider";
+import { HomepageLaunchButtons } from "@/components/dev/HomepageLaunchButtons";
 import type { ColorThemeId } from "@/lib/color-themes";
 import type { FontThemeId } from "@/lib/creative-themes";
 import { cn } from "@/lib/utils";
@@ -64,7 +65,8 @@ export function CreativeBar() {
         </div>
 
         {isPlayground && (
-          <nav className="flex items-center gap-5">
+          <nav className="flex flex-wrap items-center gap-5">
+            <HomepageLaunchButtons />
             <Link href="/" className={cn(navLinkClassName, "text-white/70")}>
               Home
             </Link>

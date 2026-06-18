@@ -29,7 +29,12 @@ function isSpacerGradientStyle(value: unknown): value is SpacerGradientStyle {
   return typeof style.heightPx === "number";
 }
 
+import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+
 export function loadSpacerStripeStyle(colorThemeId: ColorThemeId): SpacerStripeStyle {
+  const committed = getCommittedHomepagePreviewSettings()?.spacerStripe;
+  if (committed) return committed;
+
   if (typeof window === "undefined") {
     return getDefaultSpacerStripeStyle(colorThemeId);
   }
@@ -53,6 +58,9 @@ export function saveSpacerStripeStyle(style: SpacerStripeStyle): void {
 }
 
 export function loadSpacerGradientStyle(): SpacerGradientStyle {
+  const committed = getCommittedHomepagePreviewSettings()?.spacerGradient;
+  if (committed) return committed;
+
   if (typeof window === "undefined") {
     return defaultSpacerGradientStyle;
   }

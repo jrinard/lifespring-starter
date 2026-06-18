@@ -67,9 +67,10 @@ function normalizeBackgroundSettings(
   };
 }
 
-function normalizeHeroV21PreviewSettings(
-  value: Partial<HeroV21PreviewSettings>,
-): HeroV21PreviewSettings {
+function normalizeHeroV21PreviewSettings(value: {
+  button?: Partial<ButtonPreviewSettings>;
+  background?: Partial<HeroV21BackgroundSettings>;
+}): HeroV21PreviewSettings {
   return {
     button: normalizeButtonSettings(value.button ?? {}),
     background: normalizeBackgroundSettings(value.background ?? {}),
@@ -107,7 +108,12 @@ function parseStoredHeroV21Preview(raw: string): HeroV21PreviewSettings | null {
   return null;
 }
 
+import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+
 export function loadHeroV21PreviewSettings(): HeroV21PreviewSettings {
+  const committed = getCommittedHomepagePreviewSettings()?.heroV21;
+  if (committed) return committed;
+
   if (typeof window === "undefined") {
     return defaultHeroV21PreviewSettings;
   }

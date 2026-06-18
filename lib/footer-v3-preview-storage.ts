@@ -54,7 +54,12 @@ function normalizeFooterV3PreviewSettings(
   };
 }
 
+import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+
 export function loadFooterV3PreviewSettings(): FooterV3PreviewSettings {
+  const committed = getCommittedHomepagePreviewSettings()?.footerV3;
+  if (committed) return committed;
+
   if (typeof window === "undefined") {
     return defaultFooterV3PreviewSettings;
   }

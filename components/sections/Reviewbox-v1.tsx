@@ -182,10 +182,10 @@ export function ReviewboxV1({
     ? getHeroV21BackgroundStyle(backgroundSettings)
     : undefined;
   const previewTextStyle: CSSProperties | undefined = preview
-    ? {
+    ? ({
         "--reviewbox-title-color": preview.settings.titleColor,
         "--reviewbox-body-color": preview.settings.bodyColor,
-      }
+      } as CSSProperties)
     : undefined;
 
   return (

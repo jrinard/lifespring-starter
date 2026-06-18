@@ -1,4 +1,5 @@
 import { HomePage } from "@/components/pages/HomePage";
+import { PreviewShell } from "@/components/dev/PreviewShell";
 import { createMetadata } from "@/lib/seo";
 import { siteConfig } from "@/config/site";
 
@@ -10,5 +11,9 @@ export const metadata = createMetadata({
 });
 
 export default function HomePreviewPage() {
-  return <HomePage />;
+  return (
+    <PreviewShell showControls>
+      <HomePage />
+    </PreviewShell>
+  );
 }

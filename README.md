@@ -13,7 +13,7 @@ If you are evaluating LifeSpring for a new website, this repo reflects how proje
 - **SEO-ready** — page metadata, sitemap, structured data for search engines
 - **Simple configuration** — business name, contact info, navigation, and logos in one place
 
-The live homepage (`/`) currently shows an under-construction screen while projects are in development.
+The live homepage (`/`) shows an under-construction screen by default (`config/site.ts` → `launch.mode`). Design on `/playground`, preview on `/preview`, then **Publish to /** when ready for full launch.
 
 ---
 
