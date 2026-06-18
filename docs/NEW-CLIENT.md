@@ -4,6 +4,8 @@
 
 This repo is **LifeSpring Starter**. Each client gets their own forked repo. Do not treat LifeSpring Design branding as the client brand unless explicitly told otherwise.
 
+**Integrations (contact email + reCAPTCHA):** see [Integrations (every clone)](#integrations-every-clone) below — or the focused guides [`docs/resend-setup.md`](./resend-setup.md) and [`docs/recaptcha.md`](./recaptcha.md).
+
 ---
 
 ## Quick intake (ask or infer from user)
@@ -67,11 +69,60 @@ Update `pageSeo.home` for `[CUSTOMER]`:
 
 ---
 
+### Integrations (every clone)
+
+Do this early — contact works on `/playground` and `/preview` before full launch. Details: [`docs/resend-setup.md`](./resend-setup.md) · [`docs/recaptcha.md`](./recaptcha.md).
+
+**5. Environment — `.env.local`**
+
+```bash
+cp .env.local.example .env.local
+```
+
+| Variable | Per clone? | Notes |
+|----------|------------|--------|
+| `RESEND_API_KEY` | Usually **same** | One agency Resend account |
+| `RECAPTCHA_PROJECT_ID` | **Same** | One Google Cloud project for all clients |
+| `RECAPTCHA_API_KEY_SECRET` | **Same** | Project secret or `AIzaSy` API key |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Same or per client | Option A: one key, all domains. Option B: key per client |
+| `CONTACT_LEAD_TO` | Optional | Defaults to `config/site.ts` → `email` |
+| `CONTACT_LEAD_FROM` | **Per client** (production) | Verified domain, e.g. `Spartan Restoration <contact@spartanrestoration.com>` |
+
+Restart `npm run dev` after any env change. Mirror the same vars in Vercel (or host) before deploy.
+
+**6. Contact form (modal, not a separate page)**
+
+- Header, footer, and hero CTAs open a **contact modal** — no `/contact` page required for launch
+- Form lives in `components/forms/ContactForm.tsx` → `POST /api/leads`
+- Set `config/site.ts` → `email` (and `phone`) so leads and CTAs show the right info
+- Test on `/playground` (Contact-v1 section) or `/preview` after env is set
+
+**7. reCAPTCHA (spam protection)**
+
+1. In Google Cloud → reCAPTCHA → add **client domain** + `localhost` to the site key (Option A: shared key; Option B: client’s own key → update `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`)
+2. Leave all three reCAPTCHA vars blank to **disable** verification on a clone (form still submits)
+
+**8. Resend (lead email)**
+
+1. Local/sandbox: `RESEND_API_KEY` only — sends from `onboarding@resend.dev`; recipient must be allowed (often your Resend signup email, or set `CONTACT_LEAD_TO`)
+2. Production: Resend → **Domains** → verify client domain → set `CONTACT_LEAD_FROM` → redeploy
+
+**Integrations checklist**
+
+- [ ] `.env.local` copied and filled (at minimum `RESEND_API_KEY`; reCAPTCHA vars if enabled)
+- [ ] `config/site.ts` → `email` set to client inbox
+- [ ] Client domain added to reCAPTCHA key in Cloud Console
+- [ ] Contact form tested on `/playground` — email arrives in Resend dashboard
+- [ ] Hosting env vars match `.env.local` before production deploy
+- [ ] Client domain verified in Resend + `CONTACT_LEAD_FROM` set before go-live
+
+---
+
 ### Phase 2 — Soft launch (under construction)
 
 **Goal:** Domain goes live. Visitors see a branded holding page. You keep building on `/playground`.
 
-**5. Confirm `/` is under construction**
+**9. Confirm `/` is under construction**
 
 `app/page.tsx` should render `<UnderConstruction />` (default in starter). **Do not change this yet.**
 
@@ -84,11 +135,11 @@ The page reads from `siteConfig`:
 
 Override `--uc-*` CSS variables under `.under-construction` in `app/globals.css` for client brand colors (gold/slate for Spartan, etc.).
 
-**6. Set default theme for your workspace**
+**10. Set default theme for your workspace**
 
 `lib/color-themes.ts` → set `defaultColorThemeId` to the client theme (e.g. `"spartan"`). This only affects `/playground`, not the public `/` page.
 
-**7. Deploy to Vercel**
+**11. Deploy to Vercel**
 
 - New Vercel project → client repo
 - Connect `[CUSTOMER]` domain
@@ -111,7 +162,7 @@ Override `--uc-*` CSS variables under `.under-construction` in `app/globals.css`
 
 ### Phase 3 — Content (while soft launch is live)
 
-**8. `lib/demo-content.ts`**
+**12. `lib/demo-content.ts`**
 
 Replace all demo / OSP copy. Key exports:
 
@@ -132,12 +183,12 @@ Rules:
 - One clear primary keyword per service block
 - Replace placeholder testimonials with real or approved client copy
 
-**9. `lib/seo-content.ts`** (remaining routes)
+**13. `lib/seo-content.ts`** (remaining routes)
 
 - `pageSeo` — unique title + description per route for `[CUSTOMER]`
 - `tradeDemoSeo` — headline, description, `areaServed`, `serviceTypes` for JSON-LD
 
-**10. `public/`** (full site assets)
+**14. `public/`** (full site assets)
 
 - Client logos (light + dark if using theme headers with BrandLogo)
 - Hero banner, service photos
@@ -148,7 +199,7 @@ Rules:
 
 ### Phase 4 — Theme & layout on `/playground`
 
-**11. Design on `/playground`**
+**15. Design on `/playground`**
 
 - Run `npm run dev` → open `/playground`
 - Creative Bar (bottom): pick client **theme** and **font**
@@ -159,7 +210,7 @@ Common trade/restoration stack:
 
 - Header-v3 · HeroWashing-v2 · FlipCards · Services-v3 · Testimonials-v3 · Footer-v4
 
-**12. Header logo vs wordmark**
+**16. Header logo vs wordmark**
 
 `components/ui/HeaderBrand.tsx` shows a **theme wordmark** in preview for every theme except `lifespring`. For the **live client site**, use the real logo (`BrandLogo`) once assets exist — update HeaderBrand or production homepage wiring so `/` is not stuck on placeholder text.
 
@@ -167,7 +218,7 @@ Common trade/restoration stack:
 
 ### Phase 5 — Full site (replace under construction)
 
-**13. Real homepage — `app/page.tsx`**
+**17. Real homepage — `app/page.tsx`**
 
 When layout is approved on `/playground`, **replace** `<UnderConstruction />` with the real section stack:
 
@@ -177,16 +228,16 @@ When layout is approved on `/playground`, **replace** `<UnderConstruction />` wi
 - Wrap in `<main id="main-content">`
 - Exactly **one `<h1>`** on the page
 
-**14. Scaffold pages**
+**18. Scaffold pages**
 
 Update copy and `createMetadata()` in each:
 
 - `app/about/page.tsx`
 - `app/services/page.tsx`
-- `app/contact/page.tsx`
+- `app/contact/page.tsx` (optional fallback — contact modal is primary)
 - `app/blog/page.tsx` (drop from nav if unused)
 
-**15. JSON-LD**
+**19. JSON-LD**
 
 - Playground already adds `LocalBusinessJsonLd` on `/playground`
 - Production homepage should include appropriate schema via `components/seo/JsonLd.tsx` when going live
@@ -195,7 +246,7 @@ Update copy and `createMetadata()` in each:
 
 ### Phase 6 — Full launch
 
-**16. Pre-launch checklist** (details in `docs/SEO.md`)
+**20. Pre-launch checklist** (details in `docs/SEO.md`)
 
 - [ ] `app/page.tsx` no longer under construction — real homepage live
 - [ ] Remove `noIndex` from root `app/layout.tsx` / `pageSeo.home` when ready to index
@@ -211,6 +262,7 @@ Update copy and `createMetadata()` in each:
 ## File map (what to touch per client)
 
 ```
+.env.local.example → .env.local  ← Resend + reCAPTCHA (every clone — see Integrations)
 config/site.ts              ← business identity (always — soft launch minimum)
 lib/seo-content.ts          ← pageSeo.home first, then other routes
 public/logo.png             ← under construction logo (soft launch)
@@ -260,6 +312,7 @@ Phone: [ ]
 Email: [ ]
 
 Phase 1–2 first: config/site.ts, pageSeo.home, client logo, soft launch on Under Construction.
+Integrations: cp .env.local.example .env.local, set up Resend + reCAPTCHA per docs/resend-setup.md and docs/recaptcha.md.
 Then theme on /playground. Don't replace app/page.tsx until I say full launch.
 ```
 
@@ -267,5 +320,6 @@ Then theme on /playground. Don't replace app/page.tsx until I say full launch.
 
 ## Version
 
-- **Boilerplate v1.1** — adds soft launch (under construction) before full site
+- **Boilerplate v1.2** — adds Integrations section (env, contact modal, Resend, reCAPTCHA)
 - Pair with `docs/SEO.md` for metadata / schema / go-live detail
+- Pair with `docs/resend-setup.md` and `docs/recaptcha.md` for contact form setup
