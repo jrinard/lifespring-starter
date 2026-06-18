@@ -22,7 +22,7 @@ export function FooterBrand({ className, width = 220, height = 76, priority }: F
   return (
     <Image
       src={getLifeSpringLogoSrc(logoVariant)}
-      alt={siteConfig.name}
+      alt={`${siteConfig.name} logo`}
       width={width}
       height={height}
       className={cn("h-16 w-auto sm:h-[4.5rem]", className)}

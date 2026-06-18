@@ -72,7 +72,7 @@ function ServiceIcon({ icon, alt }: { icon: string; alt?: string }) {
             ? "h-10 w-auto max-w-[6rem] sm:h-12 sm:max-w-[7rem]"
             : "h-11 w-11 sm:h-12 sm:w-12",
         )}
-        aria-hidden={alt ? undefined : true}
+        aria-hidden={!alt}
       />
     );
   }
@@ -119,10 +119,18 @@ export function ServicesV1({
     : undefined;
 
   return (
-    <section id="services" className="scroll-mt-24 py-[calc(6rem-15px)]" style={sectionStyle}>
+    <section
+      id="services"
+      className="scroll-mt-24 py-[calc(6rem-15px)]"
+      style={sectionStyle}
+      aria-labelledby="services-heading"
+    >
       <Container className={cn(getServicesV1ContainerClassName(layoutWidth))}>
         <div className="text-left">
-          <h2 className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h2
+            id="services-heading"
+            className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+          >
             {heading}
           </h2>
           {subheading && (
@@ -134,7 +142,10 @@ export function ServicesV1({
           {services.map((service) => {
             const isLogo = service.icon.startsWith("/") && /logo/i.test(service.icon);
             const icon = (
-              <ServiceIcon icon={service.icon} alt={service.iconAlt} />
+              <ServiceIcon
+                icon={service.icon}
+                alt={service.iconAlt ?? `${service.title} service icon`}
+              />
             );
 
             return (

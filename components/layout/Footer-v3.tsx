@@ -116,7 +116,7 @@ export function FooterV3({ description }: FooterV3Props) {
             </div>
           </div>
 
-          <div className="mt-14 flex flex-wrap gap-2">
+          <nav className="mt-14 flex flex-wrap gap-2" aria-label="Footer navigation">
             {siteConfig.primaryNav.map((item) => (
               <Link
                 key={item.href}
@@ -131,7 +131,7 @@ export function FooterV3({ description }: FooterV3Props) {
                 {item.label}
               </Link>
             ))}
-          </div>
+          </nav>
 
           <div className="mt-14 flex flex-col gap-6 border-t border-border/60 pt-8 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-col gap-1 text-sm">

@@ -9,7 +9,8 @@ export const siteConfig = {
   domain: "lifespringdesign.com",
   url: "https://lifespringdesign.com",
   tagline: "Crafting digital experiences that help you grow.",
-  description: "",
+  description:
+    "LifeSpring Design builds custom websites, software, and branding for businesses in Washington, Oregon, and Idaho.",
   phone: "208-316-8338",
   serviceArea: "Serving Washington, Oregon, Idaho",
   email: "josh@lifespringdesign.com",

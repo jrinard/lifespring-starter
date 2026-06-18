@@ -58,7 +58,7 @@ export function PortfolioV1({
   const preview = usePortfolioPreview();
   const theme = preview?.settings.theme ?? defaultPortfolioPreviewSettings.theme;
   const [activeTab, setActiveTab] = useState<PortfolioTab>("web");
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLUListElement>(null);
   const dragState = useRef({ active: false, startX: 0, scrollLeft: 0, moved: false });
   const userInteractedRef = useRef(false);
   const isAutoScrollingRef = useRef(false);
@@ -154,7 +154,7 @@ export function PortfolioV1({
     });
   };
 
-  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
+  const handlePointerDown = (event: PointerEvent<HTMLUListElement>) => {
     stopAutoScroll();
 
     if (event.pointerType !== "mouse" || event.button !== 0) return;
@@ -172,7 +172,7 @@ export function PortfolioV1({
     track.classList.add("is-dragging");
   };
 
-  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+  const handlePointerMove = (event: PointerEvent<HTMLUListElement>) => {
     if (!dragState.current.active) return;
 
     const track = scrollRef.current;
@@ -184,7 +184,7 @@ export function PortfolioV1({
     track.scrollLeft = dragState.current.scrollLeft - delta;
   };
 
-  const endDrag = (event: PointerEvent<HTMLDivElement>) => {
+  const endDrag = (event: PointerEvent<HTMLUListElement>) => {
     if (!dragState.current.active) return;
 
     dragState.current.active = false;
@@ -192,7 +192,7 @@ export function PortfolioV1({
     scrollRef.current?.classList.remove("is-dragging");
   };
 
-  const handleClickCapture = (event: MouseEvent<HTMLDivElement>) => {
+  const handleClickCapture = (event: MouseEvent<HTMLUListElement>) => {
     if (!dragState.current.moved) return;
 
     event.preventDefault();
@@ -206,12 +206,20 @@ export function PortfolioV1({
   };
 
   return (
-    <section id="portfolio" className="portfolio-v1 scroll-mt-24 py-[calc(6rem-15px)]" data-portfolio-theme={theme}>
+    <section
+      id="portfolio"
+      className="portfolio-v1 scroll-mt-24 py-[calc(6rem-15px)]"
+      data-portfolio-theme={theme}
+      aria-labelledby="portfolio-heading"
+    >
       <Container className="max-w-[100rem] lg:px-10">
         <div className="portfolio-v1-layout">
           <div className="portfolio-v1-header-row">
             <div className="portfolio-v1-heading-wrap">
-              <h2 className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              <h2
+                id="portfolio-heading"
+                className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+              >
                 {heading}
               </h2>
               {hasBranding && (
@@ -250,13 +258,13 @@ export function PortfolioV1({
             <PortfolioNavIcon direction="left" />
           </button>
 
-          <div
+          <ul
             ref={scrollRef}
-            className="portfolio-v1-scroll min-w-0 flex-1 flex overflow-x-auto scroll-smooth pb-4 snap-x snap-mandatory"
+            className="portfolio-v1-scroll m-0 min-w-0 flex-1 list-none flex overflow-x-auto scroll-smooth p-0 pb-4 snap-x snap-mandatory"
             data-portfolio-tab={activeTab}
             tabIndex={0}
-            role="tabpanel"
-            aria-label={activeTab === "web" ? "Web projects" : "Branding projects"}
+            role="list"
+            aria-label={activeTab === "web" ? "Web design and development projects" : "Branding and graphic design projects"}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={endDrag}
@@ -267,9 +275,12 @@ export function PortfolioV1({
             onScroll={handleUserScroll}
             onKeyDown={stopAutoScroll}
           >
-            {activeProjects.map((project) => (
-              <article
+            {activeProjects.map((project, index) => (
+              <li
                 key={`${activeTab}-${project.title}`}
+                className="list-none"
+              >
+              <article
                 className={
                   activeTab === "branding"
                     ? "portfolio-v1-card portfolio-v1-card--branding group shrink-0 snap-start rounded-xl border-2 border-border bg-surface/50 transition-[border-color,box-shadow] hover:border-accent-blue/40"
@@ -288,6 +299,7 @@ export function PortfolioV1({
                       src={project.imageSrc}
                       alt={project.imageAlt ?? project.title}
                       fill
+                      loading={index < 2 ? "eager" : "lazy"}
                       className={
                         activeTab === "branding"
                           ? "object-contain p-4 transition-transform duration-300 group-hover:scale-[1.02]"
@@ -324,6 +336,7 @@ export function PortfolioV1({
                         href={project.href}
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label={`View ${project.title} project (opens in new tab)`}
                         className="mt-3 inline-block text-sm text-accent-blue transition-colors hover:text-accent-blue-dark"
                       >
                         View project →
@@ -332,8 +345,9 @@ export function PortfolioV1({
                   </div>
                 )}
               </article>
+              </li>
             ))}
-          </div>
+          </ul>
 
           <button
             type="button"

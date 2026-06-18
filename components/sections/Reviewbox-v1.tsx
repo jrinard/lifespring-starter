@@ -197,6 +197,7 @@ export function ReviewboxV1({
       )}
       data-reviewbox-theme={theme}
       style={previewTextStyle}
+      aria-labelledby="reviewbox-heading"
     >
       <div
         className={cn(
@@ -223,7 +224,10 @@ export function ReviewboxV1({
                 {eyebrow}
               </p>
             )}
-            <h2 className="reviewbox-v1-title mt-3 font-serif text-4xl font-light leading-[1.08] tracking-tight text-foreground sm:text-5xl">
+            <h2
+              id="reviewbox-heading"
+              className="reviewbox-v1-title mt-3 font-serif text-4xl font-light leading-[1.08] tracking-tight text-foreground sm:text-5xl"
+            >
               {headlineLines.map((line) => (
                 <span key={line} className="block">
                   {line}
@@ -235,6 +239,8 @@ export function ReviewboxV1({
                 <>
                   <a
                     href={productLink.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="reviewbox-v1-body-link font-medium underline decoration-accent-purple/40 underline-offset-4 transition-colors hover:text-accent-purple"
                   >
                     {productLink.label}
@@ -276,7 +282,7 @@ export function ReviewboxV1({
               </div>
             )}
             <div className="mt-8">
-              <Link href={ctaHref}>
+              <Link href={ctaHref} target="_blank" rel="noopener noreferrer">
                 <Button
                   size="lg"
                   variant="ghost"

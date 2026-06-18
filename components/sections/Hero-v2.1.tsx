@@ -47,6 +47,7 @@ function HighlightCard({ title, description, href }: HeroHighlight) {
     return (
       <Link
         href={href}
+        aria-label={`Learn more about ${title}`}
         onClick={(event) => {
           if (scrollToHashHref(href)) {
             event.preventDefault();
@@ -77,7 +78,10 @@ export function HeroV21({
   const backgroundStyle = preview ? getHeroV21BackgroundStyle(backgroundSettings) : undefined;
 
   return (
-    <section className="hero-v21 relative overflow-hidden py-[calc(6rem-15px)] lg:py-[calc(8rem-15px)]">
+    <section
+      className="hero-v21 relative overflow-hidden py-[calc(6rem-15px)] lg:py-[calc(8rem-15px)]"
+      aria-labelledby="hero-heading"
+    >
       <div
         className={cn("hero-v21-bg pointer-events-none absolute inset-0", preview && "hero-v21-bg--preview")}
         style={backgroundStyle}
@@ -86,7 +90,10 @@ export function HeroV21({
 
       <Container className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <div>
-          <h1 className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h1
+            id="hero-heading"
+            className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+          >
             {headlineLines.map((line) => (
               <span key={line} className="block">
                 {line}
@@ -96,16 +103,18 @@ export function HeroV21({
           <p className="mt-6 text-lg leading-relaxed text-muted">{subtext}</p>
           {ctaLabel && ctaHref && (
             <div className="mt-8">
-              <a href={ctaHref}>
+              <a href={ctaHref} aria-label={`${ctaLabel} — contact LifeSpring Design`}>
                 <PreviewButton>{ctaLabel}</PreviewButton>
               </a>
             </div>
           )}
         </div>
 
-        <div className="flex flex-col gap-4 sm:gap-5">
+        <div className="flex flex-col gap-4 sm:gap-5" role="list" aria-label="Featured services">
           {highlights.map((highlight) => (
-            <HighlightCard key={highlight.title} {...highlight} />
+            <div key={highlight.title} role="listitem">
+              <HighlightCard {...highlight} />
+            </div>
           ))}
         </div>
       </Container>

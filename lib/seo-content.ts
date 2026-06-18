@@ -41,9 +41,9 @@ export const pageSeo = {
     noIndex: true,
   },
   preview: {
-    title: "Preview",
+    title: "Web Design & Development",
     description:
-      "Alternate homepage layout preview — agency-style hero, feature tiles, and testimonial sections.",
+      "LifeSpring Design — custom websites, software, branding, and Reviewbox.io review management for businesses in Washington, Oregon, and Idaho.",
     path: "/preview",
     noIndex: true,
   },

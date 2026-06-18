@@ -22,6 +22,15 @@ export function buildOrganizationSchema(): JsonLd {
     description: siteDescription(),
     ...(siteConfig.email && { email: siteConfig.email }),
     ...(siteConfig.phone && { telephone: siteConfig.phone }),
+    ...(siteConfig.serviceArea && { areaServed: siteConfig.serviceArea }),
+    knowsAbout: [
+      "Web Design",
+      "Custom Software Development",
+      "Branding",
+      "Graphic Design",
+      "Online Reputation Management",
+      "Reviewbox.io",
+    ],
     ...(siteConfig.address.length > 0 && {
       address: {
         "@type": "PostalAddress",
@@ -95,5 +104,64 @@ export function buildWebSiteSchema(): JsonLd {
       name: siteConfig.name,
       url: siteConfig.url,
     },
+  };
+}
+
+type PortfolioSchemaProject = {
+  title: string;
+  description?: string;
+  href?: string;
+  imageSrc?: string;
+};
+
+export function buildPortfolioItemListSchema(
+  projects: PortfolioSchemaProject[],
+  listName = "LifeSpring Design Portfolio",
+): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: listName,
+    itemListElement: projects.map((project, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "CreativeWork",
+        name: project.title,
+        ...(project.description && { description: project.description }),
+        ...(project.href && { url: project.href }),
+        ...(project.imageSrc && { image: `${siteConfig.url}${project.imageSrc}` }),
+        creator: {
+          "@type": "Organization",
+          name: siteConfig.name,
+          url: siteConfig.url,
+        },
+      },
+    })),
+  };
+}
+
+export function buildServicesItemListSchema(
+  services: { title: string; description: string }[],
+): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `${siteConfig.name} Services`,
+    itemListElement: services.map((service, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Service",
+        name: service.title,
+        description: service.description,
+        provider: {
+          "@type": "Organization",
+          name: siteConfig.name,
+          url: siteConfig.url,
+        },
+        areaServed: siteConfig.serviceArea,
+      },
+    })),
   };
 }
