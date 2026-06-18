@@ -1,9 +1,10 @@
-/** Contact lead submission — verifies reCAPTCHA when configured. @see docs/recaptcha.md */
+/** Contact lead submission — reCAPTCHA + Resend. @see docs/recaptcha.md @see docs/resend-setup.md */
 import {
   isRecaptchaVerificationConfigured,
   verifyRecaptchaToken,
 } from "@/lib/recaptcha-server";
 import { recaptchaAction } from "@/lib/recaptcha-config";
+import { sendLeadEmail } from "@/lib/send-lead-email";
 import type { LeadPayload } from "@/lib/leads";
 
 type LeadRequestBody = LeadPayload & {
@@ -68,7 +69,13 @@ export async function POST(request: Request) {
     }
   }
 
-  console.log("[LifeSpring Lead]", leadFields);
+  const emailResult = await sendLeadEmail(leadFields);
+  if (!emailResult.ok) {
+    return Response.json(
+      { success: false, message: emailResult.message },
+      { status: 500 },
+    );
+  }
 
   return Response.json({
     success: true,
