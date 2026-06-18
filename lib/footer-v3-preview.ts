@@ -7,6 +7,7 @@ export type FooterV3Theme = "dark" | "light";
 export type FooterV3LayoutWidth = "contained" | "full";
 
 export type FooterV3PreviewSettings = {
+  accentColor: string;
   copyrightColor: string;
   domainColor: string;
   socialColor: string;
@@ -17,6 +18,7 @@ export type FooterV3PreviewSettings = {
 };
 
 export const defaultFooterV3PreviewSettings: FooterV3PreviewSettings = {
+  accentColor: "#4d82b8",
   copyrightColor: "#8888a0",
   domainColor: "#8888a0",
   socialColor: "#8888a0",

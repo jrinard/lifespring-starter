@@ -75,6 +75,16 @@ export function FooterV3PreviewControls() {
   return (
     <div className="flex flex-wrap items-center gap-x-3.5 gap-y-2">
       <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Accent</span>
+        <input
+          type="color"
+          value={context.settings.accentColor}
+          onChange={(event) => update({ accentColor: event.target.value })}
+          className={colorInputClassName}
+          aria-label="Footer tagline, Start a project, and Contact us color"
+        />
+      </label>
+      <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">©</span>
         <input
           type="color"

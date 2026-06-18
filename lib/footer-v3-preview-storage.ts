@@ -38,6 +38,12 @@ function normalizeFooterV3PreviewSettings(
   return {
     ...defaultFooterV3PreviewSettings,
     ...value,
+    accentColor:
+      typeof value.accentColor === "string"
+        ? value.accentColor
+        : typeof (value as { taglineColor?: string }).taglineColor === "string"
+          ? (value as { taglineColor: string }).taglineColor
+          : defaultFooterV3PreviewSettings.accentColor,
     layoutWidth: isFooterV3LayoutWidth(value.layoutWidth)
       ? value.layoutWidth
       : defaultFooterV3PreviewSettings.layoutWidth,

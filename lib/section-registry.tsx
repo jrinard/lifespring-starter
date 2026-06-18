@@ -45,6 +45,7 @@ import {
   narrativeContent,
   partnerLogos,
   projects,
+  brandingProjects,
   simpleServices,
   servicesV1Cta,
   testimonials,
@@ -226,7 +227,9 @@ export const sectionGroups = {
     variants: {
       "portfolio-v1": {
         label: "Portfolio-v1",
-        render: () => <PortfolioV1 heading="Projects" projects={projects} />,
+        render: () => (
+          <PortfolioV1 heading="Projects" projects={projects} brandingProjects={brandingProjects} />
+        ),
       },
     },
   },

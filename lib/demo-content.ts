@@ -16,16 +16,15 @@ export const heroV21Demo = {
   ctaHref: "/contact",
   highlights: [
     {
-      title: "Web Design and Development",
+      title: "Web Design & Development",
       description: "Fast, polished sites built around how you actually work.",
       href: "#services",
     },
     {
-      title: "Grow Business Reputation",
+      title: "Grow Business Reputation with Reviewbox.io",
       description:
         "Use Reviewbox.io to consistently get better quality Google reviews for building a better online reputation.",
       href: "#reviewbox",
-      badge: "Product",
     },
   ],
 };
@@ -34,22 +33,143 @@ export const projects = [
   {
     title: "OS Power and Softwash",
     tags: "Website Design, Pressure Washing",
+    description:
+      "Keep your home clean and protected with the right mix of soft washing and pressure washing for roofs, siding, and concrete. We remove dirt, mold, and buildup without damaging your surfaces—boosting curb appeal and protecting your property.",
     href: "https://ospnwcleanpros.com/",
-    imageSrc: "/ospower-example.png",
+    imageSrc: "/portfolio-sites/ospower-example.png",
     imageAlt: "OS Pressure/Soft Washing website",
   },
   {
-    title: "Phonefixation",
-    tags: "Website Design, Mobile Repair",
-    imageSrc: "/PhoneFix-example.png",
-    imageAlt: "Phonefixation website design by LifeSpring Design",
+    title: "Reviewbox.io",
+    tags: "Product Design, Review Software",
+    description:
+      "Reviewbox simplifies online reviews by texting customers a direct link so they can leave a rating in seconds. It helps you build a consistent five-star reputation by reminding happy customers to share their positive experiences.",
+    href: "https://reviewbox.io",
+    imageSrc: "/rvbx-example-desktop.png",
+    imageAlt: "Reviewbox.io dashboard on desktop",
   },
   {
     title: "Genesis Feed Products",
     tags: "Website Design, Organic Agriculture",
     href: "https://genesisfeedproducts.com/",
-    imageSrc: "/gfp-example.png",
+    imageSrc: "/portfolio-sites/gfp-example.png",
     imageAlt: "Genesis Feed Products website",
+  },
+  {
+    title: "Content Management System",
+    tags: "Custom Software Solution",
+    description:
+      "A custom Ruby on Rails CRM for customer management with HappyFox and QuickBooks integrations, dark/light themes, and a Kanban board for sales workflows.",
+    imageSrc: "/portfolio-sites/port-crm-example.jpg",
+    imageAlt: "Content management system by LifeSpring Design",
+  },
+  {
+    title: "Gold Co Idaho Classic",
+    tags: "Website Design",
+    imageSrc: "/portfolio-sites/port-example-gold.png",
+    imageAlt: "Gold Co Idaho Classic website by LifeSpring Design",
+  },
+  {
+    title: "Phonefixation",
+    tags: "Website Design, Mobile Repair",
+    imageSrc: "/portfolio-sites/PhoneFix-example.png",
+    imageAlt: "Phonefixation website design by LifeSpring Design",
+  },
+  {
+    title: "Eternal Zoe Design",
+    tags: "Website Design, Branding",
+    imageSrc: "/portfolio-sites/port-zoe-example.png",
+    imageAlt: "Eternal Zoe Design website by LifeSpring Design",
+  },
+  {
+    title: "Momentum",
+    tags: "Team and Event Management",
+    description:
+      "Momentum is a new software project that allows non profit organizations or social movements to organize their internal structure.",
+    stack: "Made with Ruby on Rails, HTML, CSS, JavaScript, Heroku.",
+    imageSrc: "/portfolio-sites/port-mom-example.jpg",
+    imageAlt: "Momentum application by LifeSpring Design",
+  },
+  {
+    title: "Port Closet",
+    tags: "Custom Software, Inventory",
+    description:
+      "Closets helps you remember what you wore and when. Store selfies, outfit details, dates, and events—then search by date or save favorites. Built mobile-first for easy use on the go.",
+    stack: "Made with Ruby on Rails, HTML, CSS, JavaScript, Heroku, AWS.",
+    imageSrc: "/portfolio-sites/port-closet-example.jpg",
+    imageAlt: "Port Closet application by LifeSpring Design",
+  },
+  {
+    title: "Blue Lakes Inn Boutique Hotel",
+    tags: "Website Design, Branding",
+    description:
+      "A boutique hotel in southern Idaho offering short-term and extended stays.",
+    href: "https://bluelakesinn.com/",
+    imageSrc: "/portfolio-sites/port-bli-example.jpg",
+    imageAlt: "Blue Lakes Inn Boutique Hotel website by LifeSpring Design",
+  },
+  {
+    title: "Stoken Joe Coffee",
+    tags: "Website Design, Branding, Print Advertising, Packaging",
+    imageSrc: "/portfolio-sites/port-stoken-example.jpg",
+    imageAlt: "Stoken Joe Coffee website by LifeSpring Design",
+  },
+  {
+    title: "Orpheum Theater",
+    tags: "Website Design, Branding",
+    imageSrc: "/portfolio-sites/port-orph-example.png",
+    imageAlt: "Orpheum Theater website by LifeSpring Design",
+  },
+];
+
+export const brandingProjects = [
+  {
+    title: "Branding Project 1",
+    tags: "Branding",
+    imageSrc: "/portfolio_images/port-brand-1.png",
+    imageAlt: "Branding work sample 1 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 2",
+    tags: "Branding",
+    imageSrc: "/portfolio_images/port-brand-2.png",
+    imageAlt: "Branding work sample 2 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 3",
+    tags: "Branding",
+    imageSrc: "/portfolio_images/port-brand-3.png",
+    imageAlt: "Branding work sample 3 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 4",
+    tags: "Branding",
+    imageSrc: "/portfolio_images/port-brand-4.png",
+    imageAlt: "Branding work sample 4 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 5",
+    tags: "Branding",
+    imageSrc: "/portfolio_images/port-brand-5.png",
+    imageAlt: "Branding work sample 5 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 6",
+    tags: "Branding",
+    imageSrc: "/portfolio_images/port-brand-6.png",
+    imageAlt: "Branding work sample 6 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 7",
+    tags: "Branding",
+    imageSrc: "/portfolio_images/port-brand-7.png",
+    imageAlt: "Branding work sample 7 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 8",
+    tags: "Branding",
+    imageSrc: "/portfolio_images/port-brand-8.png",
+    imageAlt: "Branding work sample 8 by LifeSpring Design",
   },
 ];
 
@@ -107,7 +227,7 @@ export const simpleServices = [
     title: "Websites That Represent Your Business",
     description:
       "Websites designed to attract customers, build trust, and represent your business online.",
-    icon: "/demo-icon-square-green.png",
+    icon: "/demo-website-design.png",
     bullets: [
       "Custom website design",
       "Mobile-friendly development",
@@ -120,7 +240,7 @@ export const simpleServices = [
     title: "Custom Software Built Around Your Workflow",
     description:
       "Stop adapting your business to software. We build tools that fit the way you already work.",
-    icon: "/demo-icon-settings_silver.png",
+    icon: "/demo-custom-soft.png",
     bullets: [
       "Internal business applications",
       "Customer portals",
@@ -130,7 +250,7 @@ export const simpleServices = [
     ],
   },
   {
-    title: "Grow Business Reputation",
+    title: "Grow Business Reputation with Reviewbox.io",
     description:
       "to consistently get better quality Google reviews for building a better online reputation.",
     icon: "/Reviewbox-logo.png",
@@ -148,7 +268,7 @@ export const simpleServices = [
     title: "Graphic Design & Brand Support",
     description:
       "Professional designs that help your business stand out and create a consistent brand.",
-    icon: "/demo-icon-yellow-diamond.png",
+    icon: "/Square-2026.jpg",
     bullets: [
       "Logos and branding materials",
       "Business cards and print materials",
@@ -161,7 +281,7 @@ export const simpleServices = [
     title: "Ongoing Technology Support",
     description:
       "Your business changes over time. We help your technology evolve with it through ongoing updates, improvements, and support.",
-    icon: "/demo-icon-white-check.png",
+    icon: "/demo-icon-dia-green.png",
     bullets: [
       "Website updates",
       "Software improvements",
@@ -173,7 +293,7 @@ export const simpleServices = [
 ];
 
 export const servicesV1Cta = {
-  headline: "Great businesses need a trusted partner behind it.",
+  headline: "Great businesses need a trusted developer.",
   text: "We can help you.",
   ctaLabel: "Let's Go",
   ctaHref: heroDemo.ctaHref,

@@ -42,26 +42,27 @@ export function FooterV3({ description }: FooterV3Props) {
   const year = new Date().getFullYear();
   const activeSocial = socialLinks.filter((link) => link.href);
   const preview = useFooterV3Preview();
+  const footerSettings = preview?.settings ?? defaultFooterV3PreviewSettings;
   const hasPreviewColors = Boolean(preview);
-  const layoutWidth =
-    preview?.settings.layoutWidth ?? defaultFooterV3PreviewSettings.layoutWidth;
-  const footerTheme = preview?.settings.theme ?? defaultFooterV3PreviewSettings.theme;
-  const hasPreviewTheme = Boolean(preview);
+  const layoutWidth = footerSettings.layoutWidth;
 
-  const previewStyle = preview
-    ? ({
-        "--footer-v3-copyright-color": preview.settings.copyrightColor,
-        "--footer-v3-domain-color": preview.settings.domainColor,
-        "--footer-v3-social-color": preview.settings.socialColor,
-        "--footer-v3-social-hover-color": preview.settings.socialHoverColor,
-      } as CSSProperties)
-    : undefined;
+  const footerStyle = {
+    "--footer-v3-accent-color": footerSettings.accentColor,
+    ...(preview
+      ? {
+          "--footer-v3-copyright-color": footerSettings.copyrightColor,
+          "--footer-v3-domain-color": footerSettings.domainColor,
+          "--footer-v3-social-color": footerSettings.socialColor,
+          "--footer-v3-social-hover-color": footerSettings.socialHoverColor,
+        }
+      : {}),
+  } as CSSProperties;
 
   return (
     <footer
       className={cn("footer-v3 relative mt-16", hasPreviewColors && "footer-v3--preview-colors")}
-      style={previewStyle}
-      {...(hasPreviewTheme && { "data-footer-v3-theme": footerTheme })}
+      style={footerStyle}
+      data-footer-v3-theme={footerSettings.theme}
     >
       <div
         className="pointer-events-none absolute -top-8 left-1/2 h-16 w-[120%] -translate-x-1/2 rounded-[50%] bg-accent-purple-deep/10 blur-2xl"
@@ -80,9 +81,9 @@ export function FooterV3({ description }: FooterV3Props) {
           <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-md">
               <Link href="/" className="inline-block">
-                <FooterBrand priority width={180} height={62} />
+                <FooterBrand priority width={220} height={76} />
               </Link>
-              <p className="mt-6 text-lg leading-relaxed text-foreground">
+              <p className="footer-v3-accent-text mt-6 text-lg leading-relaxed">
                 {siteConfig.tagline}
               </p>
               {description && (
@@ -91,7 +92,7 @@ export function FooterV3({ description }: FooterV3Props) {
             </div>
 
             <div className="flex flex-col gap-3 sm:items-end">
-              <p className="font-mono text-xs tracking-widest text-accent-purple uppercase">
+              <p className="footer-v3-accent-text font-mono text-xs tracking-widest uppercase">
                 Start a project
               </p>
               {siteConfig.serviceArea && (
@@ -107,7 +108,7 @@ export function FooterV3({ description }: FooterV3Props) {
               )}
               <Link
                 href="/contact"
-                className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-accent-purple transition-colors hover:text-accent-purple-light"
+                className="footer-v3-accent-text footer-v3-contact-link mt-2 inline-flex items-center gap-2 text-sm font-medium transition-colors"
               >
                 Contact us
                 <span aria-hidden="true">→</span>

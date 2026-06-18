@@ -14,7 +14,7 @@ type FooterBrandProps = {
   priority?: boolean;
 };
 
-export function FooterBrand({ className, width = 180, height = 62, priority }: FooterBrandProps) {
+export function FooterBrand({ className, width = 220, height = 76, priority }: FooterBrandProps) {
   const preview = useFooterV3Preview();
   const logoVariant =
     preview?.settings.logoVariant ?? defaultFooterV3PreviewSettings.logoVariant;
@@ -25,7 +25,7 @@ export function FooterBrand({ className, width = 180, height = 62, priority }: F
       alt={siteConfig.name}
       width={width}
       height={height}
-      className={cn("h-12 w-auto", className)}
+      className={cn("h-16 w-auto sm:h-[4.5rem]", className)}
       priority={priority}
     />
   );

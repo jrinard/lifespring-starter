@@ -15,8 +15,6 @@ export type HeroHighlight = {
   title: string;
   description: string;
   href?: string;
-  /** Optional label, e.g. "Product" for a software offering */
-  badge?: string;
 };
 
 type HeroV21Props = {
@@ -28,17 +26,10 @@ type HeroV21Props = {
   ctaHref?: string;
 };
 
-function HighlightCard({ title, description, href, badge }: HeroHighlight) {
+function HighlightCard({ title, description, href }: HeroHighlight) {
   const content = (
     <>
-      <div className="flex items-start justify-between gap-4">
-        <h2 className="font-serif text-lg font-bold tracking-tight text-foreground sm:text-xl">{title}</h2>
-        {badge && (
-          <span className="shrink-0 rounded-full border border-border bg-background/60 px-2.5 py-0.5 text-[0.65rem] font-medium uppercase tracking-wider text-muted">
-            {badge}
-          </span>
-        )}
-      </div>
+      <h2 className="font-serif text-lg font-bold tracking-tight text-foreground sm:text-xl">{title}</h2>
       <p className="mt-2 text-sm leading-relaxed text-muted sm:text-base">{description}</p>
       {href && (
         <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent-blue transition-colors group-hover:text-accent-blue-dark">

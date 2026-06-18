@@ -64,13 +64,13 @@ function ServiceIcon({ icon, alt }: { icon: string; alt?: string }) {
       <Image
         src={icon}
         alt={alt ?? ""}
-        width={isLogo ? 160 : 44}
-        height={isLogo ? 48 : 44}
+        width={isLogo ? 160 : 56}
+        height={isLogo ? 48 : 56}
         className={cn(
           "shrink-0 object-contain",
           isLogo
             ? "h-10 w-auto max-w-[6rem] sm:h-12 sm:max-w-[7rem]"
-            : "h-8 w-8 sm:h-9 sm:w-9",
+            : "h-11 w-11 sm:h-12 sm:w-12",
         )}
         aria-hidden={alt ? undefined : true}
       />
