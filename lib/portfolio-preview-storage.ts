@@ -1,3 +1,4 @@
+import { getCommittedHomepagePreviewSettings, shouldUsePlaygroundPreviewSettings } from "@/lib/homepage-settings";
 import {
   defaultPortfolioPreviewSettings,
   type PortfolioPreviewSettings,
@@ -22,14 +23,18 @@ function normalizePortfolioPreviewSettings(
 
 function isPortfolioPreviewSettings(value: unknown): value is Partial<PortfolioPreviewSettings> {
   if (!value || typeof value !== "object") return false;
-  return isPortfolioSectionTheme((value as PortfolioPreviewSettings).theme);
+
+  const settings = value as Partial<PortfolioPreviewSettings>;
+  if (settings.theme !== undefined && !isPortfolioSectionTheme(settings.theme)) return false;
+
+  return true;
 }
 
-import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
-
 export function loadPortfolioPreviewSettings(): PortfolioPreviewSettings {
-  const committed = getCommittedHomepagePreviewSettings()?.portfolio;
-  if (committed) return committed;
+  if (!shouldUsePlaygroundPreviewSettings()) {
+    const committed = getCommittedHomepagePreviewSettings()?.portfolio;
+    if (committed) return normalizePortfolioPreviewSettings(committed);
+  }
 
   if (typeof window === "undefined") {
     return defaultPortfolioPreviewSettings;

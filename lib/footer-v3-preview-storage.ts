@@ -1,4 +1,8 @@
 import {
+  getCommittedHomepagePreviewSettings,
+  shouldUsePlaygroundPreviewSettings,
+} from "@/lib/homepage-settings";
+import {
   defaultFooterV3PreviewSettings,
   type FooterV3LayoutWidth,
   type FooterV3LogoVariant,
@@ -20,30 +24,81 @@ function isFooterV3Theme(value: unknown): value is FooterV3Theme {
   return value === "dark" || value === "light";
 }
 
+function isHexColor(value: unknown): value is string {
+  return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
+}
+
 function isFooterV3PreviewSettings(value: unknown): value is Partial<FooterV3PreviewSettings> {
   if (!value || typeof value !== "object") return false;
 
-  const settings = value as Partial<FooterV3PreviewSettings>;
-  return (
-    typeof settings.copyrightColor === "string" &&
-    typeof settings.domainColor === "string" &&
-    typeof settings.socialColor === "string" &&
-    typeof settings.socialHoverColor === "string"
-  );
+  const settings = value as Partial<FooterV3PreviewSettings> & { taglineColor?: string };
+
+  if (settings.theme !== undefined && !isFooterV3Theme(settings.theme)) return false;
+  if (settings.layoutWidth !== undefined && !isFooterV3LayoutWidth(settings.layoutWidth)) {
+    return false;
+  }
+  if (settings.logoVariant !== undefined && !isFooterV3LogoVariant(settings.logoVariant)) {
+    return false;
+  }
+
+  const colorFields = [
+    "subtextColor",
+    "extraTextColor",
+    "taglineColor",
+    "linkColor",
+    "linkHoverColor",
+    "accentColor",
+    "copyrightColor",
+    "domainColor",
+    "socialColor",
+    "socialHoverColor",
+  ] as const;
+
+  for (const field of colorFields) {
+    const color = settings[field];
+    if (color !== undefined && !isHexColor(color)) return false;
+  }
+
+  return true;
 }
 
-function normalizeFooterV3PreviewSettings(
+export function normalizeFooterV3PreviewSettings(
   value: Partial<FooterV3PreviewSettings>,
 ): FooterV3PreviewSettings {
+  const legacy = value as Partial<FooterV3PreviewSettings> & { taglineColor?: string };
+
   return {
-    ...defaultFooterV3PreviewSettings,
-    ...value,
-    accentColor:
-      typeof value.accentColor === "string"
-        ? value.accentColor
-        : typeof (value as { taglineColor?: string }).taglineColor === "string"
-          ? (value as { taglineColor: string }).taglineColor
-          : defaultFooterV3PreviewSettings.accentColor,
+    subtextColor: isHexColor(value.subtextColor)
+      ? value.subtextColor
+      : isHexColor(legacy.taglineColor)
+        ? legacy.taglineColor
+        : isHexColor(value.accentColor)
+          ? value.accentColor
+          : defaultFooterV3PreviewSettings.subtextColor,
+    extraTextColor: isHexColor(value.extraTextColor)
+      ? value.extraTextColor
+      : defaultFooterV3PreviewSettings.extraTextColor,
+    linkColor: isHexColor(value.linkColor)
+      ? value.linkColor
+      : defaultFooterV3PreviewSettings.linkColor,
+    linkHoverColor: isHexColor(value.linkHoverColor)
+      ? value.linkHoverColor
+      : defaultFooterV3PreviewSettings.linkHoverColor,
+    accentColor: isHexColor(value.accentColor)
+      ? value.accentColor
+      : defaultFooterV3PreviewSettings.accentColor,
+    copyrightColor: isHexColor(value.copyrightColor)
+      ? value.copyrightColor
+      : defaultFooterV3PreviewSettings.copyrightColor,
+    domainColor: isHexColor(value.domainColor)
+      ? value.domainColor
+      : defaultFooterV3PreviewSettings.domainColor,
+    socialColor: isHexColor(value.socialColor)
+      ? value.socialColor
+      : defaultFooterV3PreviewSettings.socialColor,
+    socialHoverColor: isHexColor(value.socialHoverColor)
+      ? value.socialHoverColor
+      : defaultFooterV3PreviewSettings.socialHoverColor,
     layoutWidth: isFooterV3LayoutWidth(value.layoutWidth)
       ? value.layoutWidth
       : defaultFooterV3PreviewSettings.layoutWidth,
@@ -54,11 +109,11 @@ function normalizeFooterV3PreviewSettings(
   };
 }
 
-import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
-
 export function loadFooterV3PreviewSettings(): FooterV3PreviewSettings {
-  const committed = getCommittedHomepagePreviewSettings()?.footerV3;
-  if (committed) return committed;
+  if (!shouldUsePlaygroundPreviewSettings()) {
+    const committed = getCommittedHomepagePreviewSettings()?.footerV3;
+    if (committed) return normalizeFooterV3PreviewSettings(committed);
+  }
 
   if (typeof window === "undefined") {
     return defaultFooterV3PreviewSettings;

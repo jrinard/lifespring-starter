@@ -15,9 +15,10 @@ export function PreviewPage() {
     <main id="main-content">
       {previewSections.map((config) => (
         <SectionPreview
-          key={config.group}
+          key={config.id}
           group={config.group}
           variant={getPlaygroundSectionVariant(config)}
+          sectionId={config.id}
         />
       ))}
     </main>

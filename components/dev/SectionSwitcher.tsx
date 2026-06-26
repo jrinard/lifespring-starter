@@ -41,6 +41,7 @@ import { cn } from "@/lib/utils";
 
 type SectionSwitcherProps = {
   group: SectionGroupId;
+  sectionId?: string;
   defaultVariant?: string;
   variant?: string;
   onVariantChange?: (variantId: string) => void;
@@ -53,6 +54,7 @@ type SectionSwitcherProps = {
  */
 export function SectionSwitcher({
   group,
+  sectionId,
   defaultVariant,
   variant,
   onVariantChange,
@@ -143,7 +145,9 @@ export function SectionSwitcher({
   }
 
   if (group === "spacer") {
-    return <SpacerStripePreviewProvider>{switcher}</SpacerStripePreviewProvider>;
+    return (
+      <SpacerStripePreviewProvider instanceId={sectionId}>{switcher}</SpacerStripePreviewProvider>
+    );
   }
 
   if (isHeaderV3) {

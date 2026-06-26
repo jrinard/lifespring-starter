@@ -48,7 +48,7 @@ Swap LifeSpring placeholders for `[CUSTOMER]`:
 - `phone`, `email`, `address`
 - `nav` — can stay minimal for now; Playground/Preview are dev-only
 - `social` — real URLs when ready (optional for soft launch)
-- `assets.logo` — client logo on under construction page (`public/logo.png` or path you set)
+- `assets.logo` — client logo on under construction page (`public/[client-slug]/logo.png` or path you set)
 - `assets.ogImage` — optional for soft launch; add before full launch
 
 **2. `lib/seo-content.ts` — homepage (under construction)**
@@ -61,7 +61,7 @@ Update `pageSeo.home` for `[CUSTOMER]`:
 
 **3. `public/`**
 
-- Drop client logo at the path used by `config/site.ts` `assets.logo` (default `/logo.png`)
+- Drop client logo at the path used by `config/site.ts` `assets.logo` (e.g. `/lsd/logo.png` on the official site, or `/your-slug/logo.png` on a client clone)
 
 **4. `package.json`** (optional)
 
@@ -193,7 +193,7 @@ Rules:
 - Client logos (light + dark if using theme headers with BrandLogo)
 - Hero banner, service photos
 - `og.jpg` (1200×630) → `assets.ogImage`
-- Remove or replace unused `public/osp/` demo assets when done
+- LifeSpring demo assets live in `public/lsd/` (logos, portfolio, section icons); trade demo stays in `public/osp/`
 
 ---
 
@@ -223,13 +223,14 @@ Common trade/restoration stack:
 When layout is approved:
 
 1. Check **Preview** on each section you want on the live homepage
-2. Click **Publish to /** in the playground control panel
+2. Click **Publish to /** in the playground Creative Bar (dev only — `npm run dev`)
    - Saves section stack + theme settings to `lib/homepage-config.json`
    - Sets `config/site.ts` → `launch.mode` to `"live"`
-3. Update `lib/seo-content.ts` → `pageSeo.home` (title, description, set `noIndex: false`)
-4. Verify `/` — real homepage with JSON-LD; `/preview` and `/playground` stay noIndex
+3. **Commit and deploy** — publish writes local files; production needs a git push + Vercel redeploy (env vars included)
+4. Update `lib/seo-content.ts` → `pageSeo.home` (title, description, set `noIndex: false`)
+5. Verify `/` locally — real homepage with JSON-LD; `/preview` and `/playground` stay noIndex
 
-**Revert:** **Back to construction** sets `launch.mode` back to `"under-construction"` (keeps saved config for re-publish).
+**Revert:** **Back to construction** sets `launch.mode` back to `"under-construction"` (keeps saved config for re-publish). Commit + deploy again after revert.
 
 Manual override: edit `launch.mode` in `config/site.ts` directly.
 
@@ -271,7 +272,7 @@ Update copy and `createMetadata()` in each:
 config/site.ts              ← business identity + launch.mode switch (under-construction | live)
 lib/homepage-config.json    ← published section stack (written by Publish to /)
 lib/seo-content.ts          ← pageSeo.home first, then other routes
-public/logo.png             ← under construction logo (soft launch)
+public/lsd/                 ← LifeSpring assets (logos, portfolio, section icons); trade demo stays in public/osp/
 app/page.tsx                ← reads launch.mode; do not edit manually for go-live
 lib/color-themes.ts         ← default theme for /playground
 lib/demo-content.ts         ← section copy (Phase 3+)
@@ -326,7 +327,7 @@ Then theme on /playground. Don't click Publish to / until I say full launch.
 
 ## Version
 
-- **Boilerplate v1.3** — adds Publish to / (homepage-config.json + launch.mode switch)
+- **Boilerplate v1.3** — Publish to / (homepage-config.json + launch.mode switch); README + AGENTS.md aligned
 - **Boilerplate v1.2** — adds Integrations section (env, contact modal, Resend, reCAPTCHA)
 - Pair with `docs/SEO.md` for metadata / schema / go-live detail
 - Pair with `docs/resend-setup.md` and `docs/recaptcha.md` for contact form setup

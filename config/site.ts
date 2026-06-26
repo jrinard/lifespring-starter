@@ -47,11 +47,11 @@ export const siteConfig = {
     { label: "Contact", href: "/contact" },
   ],
   assets: {
-    logo: "/logo.png",
-    logoWhite: "/LS-logo-white.png",
-    logoBlack: "/LS-logo-black.png",
-    logoColor: "/LS_Logo_Color.png",
-    ogImage: "/ls-logo-color.png",
+    logo: "/lsd/logo.png",
+    logoWhite: "/lsd/LS-logo-white.png",
+    logoBlack: "/lsd/LS-logo-black.png",
+    logoColor: "/lsd/LS_Logo_Color.png",
+    ogImage: "/lsd/LS-logo-color.png",
   },
   launch: {
     mode: "under-construction" as "under-construction" | "live",

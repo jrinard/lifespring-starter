@@ -19,6 +19,7 @@ import {
 import { portfolioPreviewStorageKey } from "@/lib/portfolio-preview-storage";
 import { reviewboxPreviewStorageKey } from "@/lib/reviewbox-preview-storage";
 import { servicesV1PreviewStorageKey } from "@/lib/services-v1-preview-storage";
+import { loadAllSpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import {
   spacerGradientStorageKey,
   spacerStripeStorageKey,
@@ -44,8 +45,21 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     (section) => ({
       group: section.group,
       variant: getPlaygroundSectionVariant(section),
+      ...(section.group === "spacer" ? { id: section.id } : {}),
     }),
   );
+
+  const previewSpacers = getPreviewSections(playgroundSections).filter(
+    (section) => section.group === "spacer",
+  );
+  const spacerInstances = loadAllSpacerInstanceSettings();
+  const spacers: HomepagePreviewSettings["spacers"] = {};
+  for (const section of previewSpacers) {
+    const settings = spacerInstances[section.id];
+    if (settings) {
+      spacers[section.id] = settings;
+    }
+  }
 
   const storedColor = localStorage.getItem(creativeStorageKeys.colorTheme);
   const storedFont = localStorage.getItem(creativeStorageKeys.fontTheme);
@@ -62,12 +76,16 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     )?.layoutWidth,
     spacerStripe: readJson(spacerStripeStorageKey),
     spacerGradient: readJson(spacerGradientStorageKey),
+    spacers: Object.keys(spacers).length > 0 ? spacers : undefined,
     contact: readJson(contactPreviewStorageKey),
   };
 
-  const hasPreviewSettings = Object.values(previewSettings).some(
-    (value) => value !== undefined && value !== null,
-  );
+  const hasPreviewSettings = Object.entries(previewSettings).some(([key, value]) => {
+    if (key === "spacers") {
+      return value !== undefined && value !== null && Object.keys(value).length > 0;
+    }
+    return value !== undefined && value !== null;
+  });
 
   return {
     sections,

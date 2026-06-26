@@ -9,6 +9,7 @@ type PlaygroundSectionSlotProps = {
   compactControls?: boolean;
   previewChecked: boolean;
   onPreviewChange: (checked: boolean) => void;
+  onDuplicate?: () => void;
   isDragging: boolean;
   isDropTarget: boolean;
   onDragStart: (index: number) => void;
@@ -35,6 +36,7 @@ export function PlaygroundSectionSlot({
   compactControls = false,
   previewChecked,
   onPreviewChange,
+  onDuplicate,
   isDragging,
   isDropTarget,
   onDragStart,
@@ -81,6 +83,16 @@ export function PlaygroundSectionSlot({
             Preview
           </span>
         </label>
+        {onDuplicate && (
+          <button
+            type="button"
+            onClick={onDuplicate}
+            className="rounded border border-accent-purple/40 bg-background/90 px-2 py-1.5 font-mono text-xs tracking-wide text-accent-purple uppercase backdrop-blur-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10"
+            aria-label={`Duplicate ${label} section`}
+          >
+            Duplicate
+          </button>
+        )}
         <button
           type="button"
           draggable

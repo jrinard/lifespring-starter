@@ -7,6 +7,7 @@ import { FooterV3PreviewProvider } from "@/components/dev/FooterV3PreviewContext
 import { ReviewboxPreviewProvider } from "@/components/dev/ReviewboxPreviewContext";
 import { ServicesV1LayoutProvider } from "@/components/dev/ServicesV1LayoutContext";
 import { SpacerStripePreviewProvider } from "@/components/dev/SpacerStripePreviewContext";
+import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
 import {
   getSectionVariant,
   sectionGroups,
@@ -16,10 +17,12 @@ import {
 type SectionPreviewProps = {
   group: SectionGroupId;
   variant?: string;
+  sectionId?: string;
+  previewSettings?: HomepagePreviewSettings;
 };
 
 /** Renders a section variant with no playground controls. */
-export function SectionPreview({ group, variant }: SectionPreviewProps) {
+export function SectionPreview({ group, variant, sectionId, previewSettings }: SectionPreviewProps) {
   const section = sectionGroups[group];
   const variantId = variant ?? section.defaultVariant;
   const activeVariant = getSectionVariant(group, variantId);
@@ -30,7 +33,20 @@ export function SectionPreview({ group, variant }: SectionPreviewProps) {
   }
 
   if (group === "spacer") {
-    return <SpacerStripePreviewProvider>{content}</SpacerStripePreviewProvider>;
+    const spacerSettings =
+      (sectionId && previewSettings?.spacers?.[sectionId]) ||
+      (!sectionId && previewSettings?.spacerStripe
+        ? {
+            stripe: previewSettings.spacerStripe,
+            gradient: previewSettings.spacerGradient,
+          }
+        : undefined);
+
+    return (
+      <SpacerStripePreviewProvider instanceId={sectionId} initialSettings={spacerSettings}>
+        {content}
+      </SpacerStripePreviewProvider>
+    );
   }
 
   if (group === "header" && variantId === "header-v3") {
@@ -42,11 +58,19 @@ export function SectionPreview({ group, variant }: SectionPreviewProps) {
   }
 
   if (group === "portfolio" && variantId === "portfolio-v1") {
-    return <PortfolioPreviewProvider>{content}</PortfolioPreviewProvider>;
+    return (
+      <PortfolioPreviewProvider initialSettings={previewSettings?.portfolio}>
+        {content}
+      </PortfolioPreviewProvider>
+    );
   }
 
   if (group === "footer" && variantId === "footer-v3") {
-    return <FooterV3PreviewProvider>{content}</FooterV3PreviewProvider>;
+    return (
+      <FooterV3PreviewProvider initialSettings={previewSettings?.footerV3}>
+        {content}
+      </FooterV3PreviewProvider>
+    );
   }
 
   if (group === "reviewbox" && variantId === "reviewbox-v1") {

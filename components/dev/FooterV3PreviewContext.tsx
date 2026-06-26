@@ -20,6 +20,7 @@ import {
 } from "@/lib/footer-v3-preview";
 import {
   loadFooterV3PreviewSettings,
+  normalizeFooterV3PreviewSettings,
   saveFooterV3PreviewSettings,
 } from "@/lib/footer-v3-preview-storage";
 
@@ -30,14 +31,27 @@ type FooterV3PreviewContextValue = {
 
 const FooterV3PreviewContext = createContext<FooterV3PreviewContextValue | null>(null);
 
-export function FooterV3PreviewProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettingsState] = useState<FooterV3PreviewSettings>(
-    defaultFooterV3PreviewSettings,
+type FooterV3PreviewProviderProps = {
+  children: ReactNode;
+  initialSettings?: FooterV3PreviewSettings;
+};
+
+export function FooterV3PreviewProvider({
+  children,
+  initialSettings,
+}: FooterV3PreviewProviderProps) {
+  const lockedToPublished = initialSettings !== undefined;
+
+  const [settings, setSettingsState] = useState<FooterV3PreviewSettings>(() =>
+    initialSettings
+      ? normalizeFooterV3PreviewSettings(initialSettings)
+      : defaultFooterV3PreviewSettings,
   );
 
   useEffect(() => {
+    if (lockedToPublished) return;
     setSettingsState(loadFooterV3PreviewSettings());
-  }, []);
+  }, [lockedToPublished]);
 
   const setSettings = useCallback((next: FooterV3PreviewSettings) => {
     setSettingsState(next);
@@ -75,13 +89,53 @@ export function FooterV3PreviewControls() {
   return (
     <div className="flex flex-wrap items-center gap-x-3.5 gap-y-2">
       <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Subtext</span>
+        <input
+          type="color"
+          value={context.settings.subtextColor}
+          onChange={(event) => update({ subtextColor: event.target.value })}
+          className={colorInputClassName}
+          aria-label="Footer subtext color"
+        />
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Extra text</span>
+        <input
+          type="color"
+          value={context.settings.extraTextColor}
+          onChange={(event) => update({ extraTextColor: event.target.value })}
+          className={colorInputClassName}
+          aria-label="Footer extra text color"
+        />
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Links</span>
+        <input
+          type="color"
+          value={context.settings.linkColor}
+          onChange={(event) => update({ linkColor: event.target.value })}
+          className={colorInputClassName}
+          aria-label="Footer link text color"
+        />
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Link hover</span>
+        <input
+          type="color"
+          value={context.settings.linkHoverColor}
+          onChange={(event) => update({ linkHoverColor: event.target.value })}
+          className={colorInputClassName}
+          aria-label="Footer link hover color"
+        />
+      </label>
+      <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Accent</span>
         <input
           type="color"
           value={context.settings.accentColor}
           onChange={(event) => update({ accentColor: event.target.value })}
           className={colorInputClassName}
-          aria-label="Footer tagline, Start a project, and Contact us color"
+          aria-label="Footer Start a project label color"
         />
       </label>
       <label className="flex items-center gap-2">

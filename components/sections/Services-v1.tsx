@@ -30,7 +30,7 @@ export type ServiceV1 = {
   title: string;
   description: string;
   bullets: string[];
-  /** Public asset path (e.g. /demo-icon-square-green.png) or emoji fallback */
+  /** Public asset path (e.g. /lsd/demo-icon-square-green.png) or emoji fallback */
   icon: string;
   /** Descriptive alt text for logo images — omit for decorative icons */
   iconAlt?: string;

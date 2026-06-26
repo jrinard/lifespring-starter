@@ -7,6 +7,14 @@ export type FooterV3Theme = "dark" | "light";
 export type FooterV3LayoutWidth = "contained" | "full";
 
 export type FooterV3PreviewSettings = {
+  /** "Crafting digital experiences…" under the logo (siteConfig.tagline). */
+  subtextColor: string;
+  /** Long description below subtext (siteConfig.description). */
+  extraTextColor: string;
+  /** Nav pills, phone, and Contact us. */
+  linkColor: string;
+  linkHoverColor: string;
+  /** "Start a project" label accent. */
   accentColor: string;
   copyrightColor: string;
   domainColor: string;
@@ -18,6 +26,10 @@ export type FooterV3PreviewSettings = {
 };
 
 export const defaultFooterV3PreviewSettings: FooterV3PreviewSettings = {
+  subtextColor: "#4d82b8",
+  extraTextColor: "#8888a0",
+  linkColor: "#8888a0",
+  linkHoverColor: "#ffffff",
   accentColor: "#4d82b8",
   copyrightColor: "#8888a0",
   domainColor: "#8888a0",

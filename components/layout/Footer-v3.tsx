@@ -23,7 +23,7 @@ type SocialItem = {
 
 function FacebookIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true">
+    <svg viewBox="0 0 24 24" className="h-8 w-8 fill-current" aria-hidden="true">
       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
     </svg>
   );
@@ -50,6 +50,10 @@ export function FooterV3({ description }: FooterV3Props) {
   const layoutWidth = footerSettings.layoutWidth;
 
   const footerStyle = {
+    "--footer-v3-subtext-color": footerSettings.subtextColor,
+    "--footer-v3-extra-text-color": footerSettings.extraTextColor,
+    "--footer-v3-link-color": footerSettings.linkColor,
+    "--footer-v3-link-hover-color": footerSettings.linkHoverColor,
     "--footer-v3-accent-color": footerSettings.accentColor,
     ...(preview
       ? {
@@ -63,7 +67,7 @@ export function FooterV3({ description }: FooterV3Props) {
 
   return (
     <footer
-      className={cn("footer-v3 relative mt-16", hasPreviewColors && "footer-v3--preview-colors")}
+      className={cn("footer-v3 relative mt-2", hasPreviewColors && "footer-v3--preview-colors")}
       style={footerStyle}
       data-footer-v3-theme={footerSettings.theme}
     >
@@ -86,11 +90,23 @@ export function FooterV3({ description }: FooterV3Props) {
               <Link href="/" className="inline-block">
                 <FooterBrand priority width={220} height={76} />
               </Link>
-              <p className="footer-v3-accent-text mt-6 text-lg leading-relaxed">
+              <p
+                className={cn(
+                  "footer-v3-subtext mt-6 text-lg leading-relaxed",
+                  !hasPreviewColors && "footer-v3-accent-text",
+                )}
+              >
                 {siteConfig.tagline}
               </p>
               {description && (
-                <p className="mt-3 text-sm leading-relaxed text-muted">{description}</p>
+                <p
+                  className={cn(
+                    "footer-v3-extra-text mt-3 text-sm leading-relaxed",
+                    !hasPreviewColors && "text-muted",
+                  )}
+                >
+                  {description}
+                </p>
               )}
             </div>
 
@@ -117,7 +133,7 @@ export function FooterV3({ description }: FooterV3Props) {
                     modal.openContact();
                   }
                 }}
-                className="footer-v3-accent-text footer-v3-contact-link mt-2 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+                className="footer-v3-contact-link mt-2 inline-flex items-center gap-2 text-sm font-medium transition-colors"
               >
                 Contact us
                 <span aria-hidden="true">→</span>
@@ -138,7 +154,7 @@ export function FooterV3({ description }: FooterV3Props) {
                     modal.openContact();
                   }
                 }}
-                className="rounded-full border border-border bg-surface/40 px-4 py-2 text-sm text-muted transition-colors hover:border-accent-purple/30 hover:text-foreground"
+                className="footer-v3-nav-link rounded-full border border-border bg-surface/40 px-4 py-2 text-sm transition-colors"
               >
                 {item.label}
               </Link>
@@ -170,7 +186,7 @@ export function FooterV3({ description }: FooterV3Props) {
                     rel="noopener noreferrer"
                     aria-label={link.label}
                     className={cn(
-                      "footer-v3-social flex h-10 w-10 items-center justify-center rounded-full border border-border transition-colors hover:border-accent-purple/40",
+                      "footer-v3-social flex h-16 w-16 items-center justify-center rounded-full border border-border transition-colors hover:border-accent-purple/40",
                       !hasPreviewColors && "text-muted hover:text-accent-purple",
                     )}
                   >

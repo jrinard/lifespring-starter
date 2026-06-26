@@ -10,6 +10,7 @@ import {
 import { previewGradientDirections } from "@/lib/preview-gradient";
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
 import { getDefaultSpacerStripeStyle } from "@/lib/spacer-defaults";
+import type { SpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import {
   loadSpacerGradientStyle,
   loadSpacerStripeStyle,
@@ -27,29 +28,54 @@ type SpacerPreviewContextValue = {
 
 const SpacerPreviewContext = createContext<SpacerPreviewContextValue | null>(null);
 
-export function SpacerStripePreviewProvider({ children }: { children: ReactNode }) {
+type SpacerStripePreviewProviderProps = {
+  children: ReactNode;
+  instanceId?: string;
+  initialSettings?: SpacerInstanceSettings;
+};
+
+export function SpacerStripePreviewProvider({
+  children,
+  instanceId,
+  initialSettings,
+}: SpacerStripePreviewProviderProps) {
   const { colorThemeId } = useCreativeTheme();
+  const lockedToPublished = initialSettings !== undefined;
+
   const [stripe, setStripeState] = useState<SpacerStripeStyle>(() =>
-    getDefaultSpacerStripeStyle(colorThemeId),
+    initialSettings?.stripe ?? getDefaultSpacerStripeStyle(colorThemeId),
   );
-  const [gradient, setGradientState] = useState<SpacerGradientStyle>(defaultSpacerGradientStyle);
+  const [gradient, setGradientState] = useState<SpacerGradientStyle>(
+    () => initialSettings?.gradient ?? defaultSpacerGradientStyle,
+  );
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setStripeState(loadSpacerStripeStyle(colorThemeId));
-    setGradientState(loadSpacerGradientStyle());
+    if (lockedToPublished) {
+      setReady(true);
+      return;
+    }
+
+    setStripeState(loadSpacerStripeStyle(colorThemeId, instanceId));
+    setGradientState(loadSpacerGradientStyle(instanceId));
     setReady(true);
-  }, [colorThemeId]);
+  }, [colorThemeId, instanceId, lockedToPublished]);
 
-  const setStripe = useCallback((next: SpacerStripeStyle) => {
-    setStripeState(next);
-    saveSpacerStripeStyle(next);
-  }, []);
+  const setStripe = useCallback(
+    (next: SpacerStripeStyle) => {
+      setStripeState(next);
+      saveSpacerStripeStyle(next, instanceId);
+    },
+    [instanceId],
+  );
 
-  const setGradient = useCallback((next: SpacerGradientStyle) => {
-    setGradientState(next);
-    saveSpacerGradientStyle(next);
-  }, []);
+  const setGradient = useCallback(
+    (next: SpacerGradientStyle) => {
+      setGradientState(next);
+      saveSpacerGradientStyle(next, instanceId);
+    },
+    [instanceId],
+  );
 
   return (
     <SpacerPreviewContext.Provider

@@ -24,7 +24,7 @@ function reorderSections(
 }
 
 export function HomePage() {
-  const { sections, setSections, updateSection } = usePlaygroundSections();
+  const { sections, setSections, updateSection, duplicateSpacer } = usePlaygroundSections();
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [overIndex, setOverIndex] = useState<number | null>(null);
 
@@ -32,12 +32,19 @@ export function HomePage() {
     <main id="main-content">
       {sections.map((config, index) => (
         <PlaygroundSectionSlot
-          key={config.group}
+          key={config.id}
           index={index}
-          label={sectionGroups[config.group].label}
+          label={
+            config.group === "spacer"
+              ? `${sectionGroups[config.group].label} ${sections.slice(0, index + 1).filter((s) => s.group === "spacer").length}`
+              : sectionGroups[config.group].label
+          }
           compactControls={config.group === "spacer"}
           previewChecked={config.preview === true}
-          onPreviewChange={(checked) => updateSection(config.group, { preview: checked })}
+          onPreviewChange={(checked) => updateSection(config.id, { preview: checked })}
+          onDuplicate={
+            config.group === "spacer" ? () => duplicateSpacer(config.id) : undefined
+          }
           isDragging={dragIndex === index}
           isDropTarget={overIndex === index && dragIndex !== null && dragIndex !== index}
           onDragStart={setDragIndex}
@@ -54,9 +61,10 @@ export function HomePage() {
         >
           <SectionSwitcher
             group={config.group}
+            sectionId={config.id}
             defaultVariant={config.defaultVariant}
             variant={getPlaygroundSectionVariant(config)}
-            onVariantChange={(variantId) => updateSection(config.group, { variant: variantId })}
+            onVariantChange={(variantId) => updateSection(config.id, { variant: variantId })}
           />
         </PlaygroundSectionSlot>
       ))}

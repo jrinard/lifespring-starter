@@ -1,6 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+import { setPreferPlaygroundPreviewSettings } from "@/lib/homepage-settings";
 import { ContactModal } from "@/components/contact/ContactModal";
 import { ContactModalProvider } from "@/components/contact/ContactModalContext";
 import { CreativeBar } from "@/components/dev/CreativeBar";
@@ -16,6 +17,11 @@ type PreviewShellProps = {
  * Wraps preview routes with theme context. Control panel is playground-only.
  */
 export function PreviewShell({ children, showControls = false }: PreviewShellProps) {
+  useEffect(() => {
+    setPreferPlaygroundPreviewSettings(true);
+    return () => setPreferPlaygroundPreviewSettings(false);
+  }, []);
+
   return (
     <CreativeProvider>
       <ContactV1PreviewProvider>

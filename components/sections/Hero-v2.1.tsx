@@ -50,7 +50,7 @@ function RotatingSubtext({ lines }: { lines: string[] }) {
 
   return (
     <p
-      className="hero-v21-subtext mt-6 text-lg leading-relaxed text-muted"
+      className="hero-v21-subtext mt-4 text-lg leading-relaxed text-muted"
       aria-live="polite"
       aria-atomic="true"
     >
@@ -85,7 +85,7 @@ function HighlightCard({ title, description, href }: HeroHighlight) {
   );
 
   const className =
-    "group flex flex-col rounded-xl border border-border bg-surface/50 p-6 transition-colors hover:border-accent-blue/30 hover:bg-surface";
+    "group flex flex-col rounded-xl border border-border bg-surface/50 p-5 transition-colors hover:border-accent-blue/30 hover:bg-surface";
 
   if (href) {
     return (
@@ -124,7 +124,7 @@ export function HeroV21({
 
   return (
     <section
-      className="hero-v21 relative overflow-hidden py-[calc(6rem-15px)] lg:py-[calc(8rem-15px)]"
+      className="hero-v21 relative overflow-hidden pt-[calc(2.5rem-15px)] pb-[calc(4rem-15px)] lg:pt-[calc(3rem-15px)] lg:pb-[calc(5rem-15px)]"
       aria-labelledby="hero-heading"
     >
       <div
@@ -133,7 +133,7 @@ export function HeroV21({
         aria-hidden="true"
       />
 
-      <Container className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <Container className="relative grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
         <div>
           <h1
             id="hero-heading"
@@ -147,7 +147,7 @@ export function HeroV21({
           </h1>
           <RotatingSubtext lines={subtextLines} />
           {ctaLabel && ctaHref && (
-            <div className="mt-8">
+            <div className="mt-6">
               <a
                 href={ctaHref}
                 aria-label={`${ctaLabel} — contact LifeSpring Design`}
@@ -164,7 +164,7 @@ export function HeroV21({
           )}
         </div>
 
-        <div className="flex flex-col gap-4 sm:gap-5" role="list" aria-label="Featured services">
+        <div className="flex flex-col gap-3 sm:gap-4" role="list" aria-label="Featured services">
           {highlights.map((highlight) => (
             <div key={highlight.title} role="listitem">
               <HighlightCard {...highlight} />

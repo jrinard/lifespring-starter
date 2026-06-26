@@ -6,7 +6,6 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { projects, simpleServices } from "@/lib/demo-content";
 import { readHomepageConfig } from "@/lib/homepage-config.server";
 import { isUnderConstruction, readLaunchMode } from "@/lib/launch-mode.server";
-import { setCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
 import { createMetadata } from "@/lib/seo";
 import { pageSeo } from "@/lib/seo-content";
 import {
@@ -39,7 +38,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Home() {
   const [launchMode, config] = await Promise.all([readLaunchMode(), readHomepageConfig()]);
-  setCommittedHomepagePreviewSettings(config.previewSettings ?? null);
 
   if (isUnderConstruction(launchMode)) {
     return <UnderConstruction />;

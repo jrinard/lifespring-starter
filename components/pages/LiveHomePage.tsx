@@ -8,14 +8,22 @@ type LiveHomePageProps = {
   config: HomepageConfig;
 };
 
-function LiveHomeSections({ sections }: { sections: HomepageSectionEntry[] }) {
+function LiveHomeSections({
+  sections,
+  previewSettings,
+}: {
+  sections: HomepageSectionEntry[];
+  previewSettings?: HomepageConfig["previewSettings"];
+}) {
   return (
     <main id="main-content">
-      {sections.map((section) => (
+      {sections.map((section, index) => (
         <SectionPreview
-          key={section.group}
+          key={section.id ?? `${section.group}-${index}`}
           group={section.group}
           variant={section.variant}
+          sectionId={section.id}
+          previewSettings={previewSettings}
         />
       ))}
     </main>
@@ -24,5 +32,10 @@ function LiveHomeSections({ sections }: { sections: HomepageSectionEntry[] }) {
 
 /** Live homepage — renders the published section stack from homepage-config.json. */
 export function LiveHomePage({ config }: LiveHomePageProps) {
-  return <LiveHomeSections sections={getHomepageSections(config)} />;
+  return (
+    <LiveHomeSections
+      sections={getHomepageSections(config)}
+      previewSettings={config.previewSettings}
+    />
+  );
 }

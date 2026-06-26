@@ -26,14 +26,26 @@ type PortfolioPreviewContextValue = {
 
 const PortfolioPreviewContext = createContext<PortfolioPreviewContextValue | null>(null);
 
-export function PortfolioPreviewProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettingsState] = useState<PortfolioPreviewSettings>(
-    defaultPortfolioPreviewSettings,
+type PortfolioPreviewProviderProps = {
+  children: ReactNode;
+  /** Published homepage settings — skips localStorage on the live site. */
+  initialSettings?: PortfolioPreviewSettings;
+};
+
+export function PortfolioPreviewProvider({
+  children,
+  initialSettings,
+}: PortfolioPreviewProviderProps) {
+  const lockedToPublished = initialSettings !== undefined;
+
+  const [settings, setSettingsState] = useState<PortfolioPreviewSettings>(() =>
+    initialSettings ?? defaultPortfolioPreviewSettings,
   );
 
   useEffect(() => {
+    if (lockedToPublished) return;
     setSettingsState(loadPortfolioPreviewSettings());
-  }, []);
+  }, [lockedToPublished]);
 
   const setSettings = useCallback((next: PortfolioPreviewSettings) => {
     setSettingsState(next);

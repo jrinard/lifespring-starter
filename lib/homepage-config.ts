@@ -8,6 +8,8 @@ import type { SectionGroupId } from "@/lib/section-registry";
 export type HomepageSectionEntry = {
   group: SectionGroupId;
   variant?: string;
+  /** Unique id for duplicate spacers in the published stack. */
+  id?: string;
 };
 
 /** Published homepage layout + theme settings from the playground. */
@@ -48,6 +50,7 @@ export function normalizeHomepageConfig(value: unknown): HomepageConfig {
           {
             group,
             variant: "variant" in entry && typeof entry.variant === "string" ? entry.variant : undefined,
+            id: "id" in entry && typeof entry.id === "string" ? entry.id : undefined,
           },
         ];
       })

@@ -53,6 +53,14 @@ const utilitySocial = [
 
 const headerV3Nav = siteConfig.primaryNav;
 
+function formatPhoneDisplay(phone: string): string {
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length === 10) {
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+  return phone;
+}
+
 function HeaderV3UtilityContent({ className }: { className?: string }) {
   return (
     <div className={cn("flex flex-wrap items-center justify-end gap-x-5 gap-y-2", className)}>
@@ -66,7 +74,7 @@ function HeaderV3UtilityContent({ className }: { className?: string }) {
               href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
               className="header-v3-phone-link font-bold transition-colors"
             >
-              {siteConfig.phone}
+              {formatPhoneDisplay(siteConfig.phone)}
             </a>
           )}
         </div>
@@ -99,7 +107,7 @@ function HeaderV3MobilePhone() {
       href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
       className="header-v3-phone-link text-center text-base font-bold transition-colors md:hidden"
     >
-      {siteConfig.phone}
+      {formatPhoneDisplay(siteConfig.phone)}
     </a>
   );
 }

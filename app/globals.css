@@ -1247,11 +1247,48 @@ body {
 }
 
 .footer-v3 {
+  --footer-v3-subtext-color: #4d82b8;
+  --footer-v3-extra-text-color: #8888a0;
+  --footer-v3-link-color: #8888a0;
+  --footer-v3-link-hover-color: #ffffff;
   --footer-v3-accent-color: #4d82b8;
 }
 
 .footer-v3-accent-text {
   color: var(--footer-v3-accent-color);
+}
+
+.footer-v3--preview-colors .footer-v3-subtext {
+  color: var(--footer-v3-subtext-color);
+}
+
+.footer-v3--preview-colors .footer-v3-extra-text {
+  color: var(--footer-v3-extra-text-color);
+}
+
+.footer-v3--preview-colors .footer-v3-nav-link {
+  color: var(--footer-v3-link-color);
+}
+
+.footer-v3--preview-colors .footer-v3-nav-link:hover {
+  color: var(--footer-v3-link-hover-color);
+  border-color: color-mix(in srgb, var(--footer-v3-link-hover-color) 30%, var(--border));
+}
+
+.footer-v3--preview-colors .footer-v3-phone {
+  color: var(--footer-v3-link-color);
+}
+
+.footer-v3--preview-colors .footer-v3-phone:hover {
+  color: var(--footer-v3-link-hover-color);
+}
+
+.footer-v3--preview-colors .footer-v3-contact-link {
+  color: var(--footer-v3-link-color);
+}
+
+.footer-v3--preview-colors .footer-v3-contact-link:hover {
+  color: var(--footer-v3-link-hover-color);
 }
 
 .footer-v3-contact-link:hover {
@@ -1875,7 +1912,7 @@ body {
 
 .hero-v21-subtext {
   position: relative;
-  min-height: 5.5rem;
+  min-height: 4rem;
 }
 
 .hero-v21-subtext-line {
@@ -1884,7 +1921,7 @@ body {
 
 @media (min-width: 640px) {
   .hero-v21-subtext {
-    min-height: 4.75rem;
+    min-height: 3.5rem;
   }
 }
 
